@@ -28,49 +28,43 @@ export default function HomePage() {
   };
 
   return (
-    <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+    <div className="flex-1 flex flex-col">
       {/* ── Hero ────────────────────────────────────────────────────── */}
-      <div style={styles.hero}>
+      <div className="relative w-full pt-[clamp(24px,4vw,48px)] pb-0 overflow-visible shrink-0">
         {/* Gradient overlay */}
-        <div style={styles.heroGradient} />
+        <div className="absolute top-0 left-0 right-0 h-[calc(100%+5rem)] bg-[linear-gradient(90deg,#F47624_0%,#FFFFFF_100%)] opacity-30 z-0 pointer-events-none [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]" />
 
-        <div style={styles.heroInner}>
+        <div className="relative z-[2] mb-[clamp(-24px,-5vw,-48px)]">
           {/* Blurry shadow layer: positioned absolutely behind the text */}
-          <h1 style={styles.brandWordShadow} aria-hidden="true">CERTIFY</h1>
+          <h1 className="m-0 px-1 font-['Prompt',system-ui,sans-serif] font-semibold text-[clamp(64px,12vw,160px)] leading-none tracking-[0.14em] text-black text-center select-none absolute inset-0 whitespace-nowrap blur-[16px] opacity-55 translate-y-6 -z-10" aria-hidden="true">CERTIFY</h1>
           {/* Foreground text layer */}
-          <h1 style={styles.brandWord} aria-label="Certify">CERTIFY</h1>
+          <h1 className="m-0 px-1 font-['Prompt',system-ui,sans-serif] font-semibold text-[clamp(64px,12vw,160px)] leading-none tracking-[0.14em] text-black text-center select-none relative whitespace-nowrap" aria-label="Certify">CERTIFY</h1>
         </div>
       </div>
 
       {/* ── Content section ──────────────────────────────────────────────── */}
-      <div style={styles.contentSection}>
-        <div style={styles.contentInner}>
+      <div className="flex-1 bg-[linear-gradient(to_bottom,transparent_0%,rgba(233,145,4,0.19)_clamp(1.5rem,4vw,3rem))] p-[clamp(2.25rem,5vw,4rem)_1.5rem_clamp(1.75rem,3vw,2.5rem)] relative z-10">
+        <div className="max-w-[900px] ml-[clamp(1.5rem,6vw,80px)] flex flex-col items-start gap-0">
 
           {/* Mode tabs — subtle pill switcher */}
-          <div style={styles.modeTabs}>
+          <div className="flex gap-0 mb-[1.1rem] bg-transparent p-0 border-none">
             <button
               id="tab-certificate"
-              style={{
-                ...styles.modeTab,
-                ...(isCert ? styles.modeTabActive : {}),
-              }}
+              className={`font-['Prompt',system-ui,sans-serif] font-semibold text-[0.88rem] py-2 px-5 rounded-[50px] border-none cursor-pointer transition-all duration-[0.18s] ease-in-out ${isCert ? "bg-[#F47624] text-white shadow-[0_2px_10px_rgba(244,118,36,0.35)]" : "bg-transparent text-[#83756b]"}`}
               onClick={() => setMode("certificate")}
             >
               Certificate
             </button>
             <button
               id="tab-badge"
-              style={{
-                ...styles.modeTab,
-                ...(!isCert ? styles.modeTabActive : {}),
-              }}
+              className={`font-['Prompt',system-ui,sans-serif] font-semibold text-[0.88rem] py-2 px-5 rounded-[50px] border-none cursor-pointer transition-all duration-[0.18s] ease-in-out ${!isCert ? "bg-[#F47624] text-white shadow-[0_2px_10px_rgba(244,118,36,0.35)]" : "bg-transparent text-[#83756b]"}`}
               onClick={() => setMode("badge")}
             >
               Badge
             </button>
           </div>
 
-          <p style={styles.headline}>
+          <p className="font-['Prompt',system-ui,sans-serif] font-semibold text-[clamp(1.1rem,2.1vw,1.7rem)] leading-relaxed tracking-[0.02em] text-black m-0 mb-[1.3rem] max-w-[900px]">
             Enter the unique {isCert ? "certificate" : "badge"} ID to instantly verify an
             <br />
             official credential issued by{" "}
@@ -78,7 +72,7 @@ export default function HomePage() {
               href="https://sliitmozilla.org"
               target="_blank"
               rel="noopener noreferrer"
-              style={styles.orgLink}
+              className="text-[#F47624] font-['Prompt',system-ui,sans-serif] font-semibold underline decoration-[#F47624] decoration-2 underline-offset-4 whitespace-nowrap"
             >
               SLIIT Mozilla Club
             </a>
@@ -86,7 +80,7 @@ export default function HomePage() {
           </p>
 
           {/* Input label */}
-          <label htmlFor="credential-id-input" style={styles.inputLabel}>
+          <label htmlFor="credential-id-input" className="font-['Prompt',system-ui,sans-serif] font-semibold text-base text-black mb-2 block tracking-[0.02em]">
             {isCert ? "Certificate ID" : "Badge ID"}
           </label>
 
@@ -98,228 +92,19 @@ export default function HomePage() {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKey}
-            style={styles.input}
-            onFocus={(e) => {
-              e.currentTarget.style.borderColor = "#F47624";
-              e.currentTarget.style.boxShadow = "0 0 0 3px rgba(244,118,36,0.12)";
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.borderColor = "#D9D9D9";
-              e.currentTarget.style.boxShadow = "none";
-            }}
+            className="w-full max-w-[478px] py-[0.85rem] px-[1.1rem] rounded-2xl border border-[#D9D9D9] bg-white text-black text-base font-['Inter',system-ui,sans-serif] outline-none box-border mb-[1.2rem] transition-all duration-[0.18s] ease-in-out focus:border-[#F47624] focus:shadow-[0_0_0_3px_rgba(244,118,36,0.12)] placeholder:text-[#B3B3B3] placeholder:font-['Prompt',system-ui,sans-serif]"
           />
 
           {/* CTA */}
           <button
             id="verify-credential-button"
             onClick={handleVerify}
-            style={styles.verifyBtn}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "#d96810";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "#F47624";
-            }}
-            onMouseDown={(e) => { e.currentTarget.style.opacity = "0.9"; }}
-            onMouseUp={(e) => { e.currentTarget.style.opacity = "1"; }}
+            className="w-full max-w-[354px] py-[0.9rem] px-[1.5rem] rounded-full border-none bg-[#F47624] text-white text-[1.05rem] font-['Montserrat',system-ui,sans-serif] font-semibold cursor-pointer shadow-[0px_2px_4px_rgba(136,144,194,0.2),0px_5px_15px_rgba(37,44,97,0.15)] transition-[background,opacity] duration-[0.18s] ease-in-out hover:bg-[#d96810] active:opacity-90"
           >
             Verify {isCert ? "Certificate" : "Badge"}
           </button>
         </div>
       </div>
-
-      {/* Scoped styles */}
-      <style>{`
-        #credential-id-input::placeholder {
-          color: #B3B3B3;
-          font-family: 'Prompt', system-ui, sans-serif;
-        }
-      `}</style>
     </div>
   );
 }
-
-/* ─── Styles ────────────────────────────────────────────────────────────── */
-const ORANGE = "#F47624";
-const PROMPT = "'Prompt', system-ui, sans-serif";
-
-const styles: Record<string, React.CSSProperties> = {
-  hero: {
-    position: "relative",
-    width: "100%",
-    paddingTop: "clamp(24px, 4vw, 48px)",
-    paddingBottom: 0,
-    overflow: "visible",
-    flexShrink: 0,
-  },
-
-  heroGradient: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: "calc(100% + 5rem)",
-    background: "linear-gradient(90deg, #F47624 0%, #FFFFFF 100%)",
-    opacity: 0.3,
-    zIndex: 0,
-    pointerEvents: "none",
-    WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
-    maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
-  },
-
-  heroInner: {
-    position: "relative",
-    zIndex: 2,
-    marginBottom: "clamp(-24px, -5vw, -48px)",
-  },
-
-  brandWordShadow: {
-    margin: 0,
-    padding: "0 4px",
-    fontFamily: PROMPT,
-    fontWeight: 600,
-    fontSize: "clamp(64px, 12vw, 160px)",
-    lineHeight: 1,
-    letterSpacing: "0.14em",
-    color: "#000000",
-    textAlign: "center",
-    userSelect: "none",
-    position: "absolute",
-    inset: 0,
-    whiteSpace: "nowrap",
-    filter: "blur(16px)",
-    opacity: 0.55,
-    transform: "translateY(24px)",
-    zIndex: -1,
-  },
-
-  brandWord: {
-    margin: 0,
-    padding: "0 4px",
-    fontFamily: PROMPT,
-    fontWeight: 600,
-    fontSize: "clamp(64px, 12vw, 160px)",
-    lineHeight: 1,
-    letterSpacing: "0.14em",
-    color: "#000000",
-    textAlign: "center",
-    userSelect: "none",
-    position: "relative",
-    whiteSpace: "nowrap",
-  },
-
-  /* Cream section — top padding reserves space the h1 overlaps.
-     Padding tightened so the button is visible without scrolling at 100% zoom. */
-  contentSection: {
-    flex: 1,
-    /* Smoothly fade the top boundary so it perfectly merges with the hero above */
-    background: "linear-gradient(to bottom, transparent 0%, rgba(233, 145, 4, 0.19) clamp(1.5rem, 4vw, 3rem))",
-    padding: "clamp(2.25rem, 5vw, 4rem) 1.5rem clamp(1.75rem, 3vw, 2.5rem)",
-    position: "relative",
-    zIndex: 1,
-  },
-
-  contentInner: {
-    maxWidth: "900px",
-    marginLeft: "clamp(1.5rem, 6vw, 80px)",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: 0,
-  },
-
-  /* Mode switcher — no visible container, just pill buttons */
-  modeTabs: {
-    display: "flex",
-    gap: "0px",
-    marginBottom: "1.1rem",
-    background: "transparent",
-    padding: "0",
-    border: "none",
-  },
-  modeTab: {
-    fontFamily: PROMPT,
-    fontWeight: 600,
-    fontSize: "0.88rem",
-    padding: "8px 20px",
-    borderRadius: "50px",
-    border: "none",
-    cursor: "pointer",
-    background: "transparent",
-    color: "#83756b",
-    transition: "all 0.18s ease",
-  },
-  modeTabActive: {
-    background: ORANGE,
-    color: "#fff",
-    boxShadow: "0 2px 10px rgba(244,118,36,0.35)",
-  },
-
-  headline: {
-    fontFamily: PROMPT,
-    fontWeight: 600,
-    fontSize: "clamp(1.1rem, 2.1vw, 1.7rem)",
-    lineHeight: 1.5,
-    letterSpacing: "0.02em",
-    color: "#000000",
-    margin: "0 0 1.3rem",
-    maxWidth: "900px",
-  },
-
-  /* SLIIT Mozilla Club — orange underline, matches reference */
-  orgLink: {
-    color: ORANGE,
-    fontFamily: PROMPT,
-    fontWeight: 600,
-    textDecoration: "underline",
-    textDecorationColor: ORANGE,
-    textDecorationThickness: "2px",
-    textUnderlineOffset: "4px",
-    whiteSpace: "nowrap",
-  },
-
-  /* Input label — small, semibold, black */
-  inputLabel: {
-    fontFamily: PROMPT,
-    fontWeight: 600,
-    fontSize: "1rem",
-    color: "#000000",
-    marginBottom: "0.5rem",
-    display: "block",
-    letterSpacing: "0.02em",
-  },
-
-  /* Text input — matches reference width, radius & border */
-  input: {
-    width: "100%",
-    maxWidth: "478px",
-    padding: "0.85rem 1.1rem",
-    borderRadius: "16px",
-    border: "1px solid #D9D9D9",
-    background: "#ffffff",
-    color: "#000000",
-    fontSize: "1rem",
-    fontFamily: "'Inter', system-ui, sans-serif",
-    outline: "none",
-    boxSizing: "border-box" as const,
-    marginBottom: "1.2rem",
-    transition: "border-color 0.18s ease, box-shadow 0.18s ease",
-  },
-
-  /* Verify button — orange pill, matched proportional size */
-  verifyBtn: {
-    width: "100%",
-    maxWidth: "354px",
-    padding: "0.9rem 1.5rem",
-    borderRadius: "999px",
-    border: "none",
-    background: ORANGE,
-    color: "#ffffff",
-    fontSize: "1.05rem",
-    fontFamily: "'Montserrat', system-ui, sans-serif",
-    fontWeight: 600,
-    cursor: "pointer",
-    boxShadow: "0px 2px 4px rgba(136,144,194,0.2), 0px 5px 15px rgba(37,44,97,0.15)",
-    transition: "background 0.18s ease, opacity 0.15s ease",
-  },
-};

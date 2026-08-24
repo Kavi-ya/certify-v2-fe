@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { ExternalLink, ChevronDown, ShieldCheck, Loader2, X } from "lucide-react";
+import { ExternalLink, ChevronDown, Loader2, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const ADMIN_ROUTES = [
@@ -9,17 +9,14 @@ const ADMIN_ROUTES = [
   { label: "Upload Badge Template", to: "/admin/badges/templates/new" },
 ];
 
-// The accounts backend login endpoint — called directly from certify
-const ACCOUNTS_LOGIN_API = "https://accounts.sliitmozilla.org/api/login";
-
-/** Token key used by certify frontend (we store it ourselves after login) */
+const ACCOUNTS_LOGIN_API = import.meta.env.VITE_PUBLIC_ACCOUNTS_API || "https://accounts.sliitmozilla.org/api/login";
 const TOKEN_KEY = "certify_token";
 
 function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
 }
 
-export function clearToken() {
+function clearToken() {
   localStorage.removeItem(TOKEN_KEY);
 }
 
@@ -30,12 +27,10 @@ export default function Header() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Re-check on route change (handles tab-wide logout)
   useEffect(() => {
     setIsLoggedIn(!!getToken());
   }, [location.pathname]);
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node))
@@ -61,14 +56,11 @@ export default function Header() {
     <>
       <header
         id="site-header"
-        className="bg-white z-50 sticky top-0"
-        style={{ borderBottom: "1px solid #e8e8e8" }}
+        className="bg-white z-50 sticky top-0 border-b border-[#e8e8e8]"
       >
         <div
-          className="max-w-[1760px] mx-auto flex items-center justify-between"
-          style={{ padding: "0 28px", height: "72px" }}
+          className="max-w-[1760px] mx-auto flex items-center justify-between px-[28px] h-[72px]"
         >
-          {/* Brand / Logo */}
           <Link
             to="/"
             className="flex items-center gap-2 sm:gap-3 shrink-0"
@@ -77,13 +69,11 @@ export default function Header() {
             <img
               src="https://www.sliitmozilla.org/assets/Mozilla-logo.png"
               alt="Mozilla logo"
-              style={{ height: "36px", width: "auto", objectFit: "contain" }}
+              className="h-[36px] w-auto object-contain"
             />
           </Link>
 
-          {/* Right side actions */}
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            {/* sliitmozilla.org pill link */}
+          <div className="flex items-center gap-[12px]">
             <a
               href="https://sliitmozilla.org"
               target="_blank"
@@ -95,57 +85,38 @@ export default function Header() {
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
 
-            {/* Admin Dropdown (when logged in) */}
             {isLoggedIn && (
               <div className="relative" ref={menuRef}>
                 <button
                   id="admin-menu-btn"
                   onClick={() => setMenuOpen((o) => !o)}
-                  style={hStyles.adminBtn}
-                  onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.88"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
+                  className="flex items-center gap-[6px] px-3 h-[36px] bg-[#fff4ee] border border-[var(--color-moz-orange)] rounded-lg font-['Segoe_UI',sans-serif] font-medium text-[0.9rem] leading-none text-[var(--color-moz-orange)] cursor-pointer transition-opacity duration-150 hover:opacity-[0.88]"
                 >
-                  <ShieldCheck style={{ width: "15px", height: "15px" }} />
                   <span>Admin</span>
                   <ChevronDown
-                    style={{
-                      width: "14px",
-                      height: "14px",
-                      transition: "transform 0.2s",
-                      transform: menuOpen ? "rotate(180deg)" : "rotate(0deg)",
-                    }}
+                    className={`w-[14px] h-[14px] transition-transform duration-200 ${menuOpen ? "rotate-180" : "rotate-0"}`}
                   />
                 </button>
 
                 {menuOpen && (
                   <div
                     id="admin-dropdown"
-                    style={hStyles.dropdown}
+                    className="absolute right-0 top-[calc(100%+8px)] w-[220px] bg-white border border-[#e8e8e8] rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.10)] overflow-hidden z-50"
                   >
                     {ADMIN_ROUTES.map((route) => (
                       <Link
                         key={route.to}
                         to={route.to}
                         onClick={() => setMenuOpen(false)}
-                        style={hStyles.dropdownItem}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background = "#fdf3ef";
-                          e.currentTarget.style.color = "#F47624";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = "transparent";
-                          e.currentTarget.style.color = "#414141";
-                        }}
+                        className="block px-4 py-2.5 font-['Prompt','Inter',system-ui,sans-serif] font-semibold text-[0.82rem] text-[#414141] no-underline transition-[background,color] duration-150 hover:bg-[#fdf3ef] hover:text-[var(--color-moz-orange)]"
                       >
                         {route.label}
                       </Link>
                     ))}
-                    <div style={{ borderTop: "1px solid #e8e8e8" }} />
+                    <div className="border-t border-[#e8e8e8]" />
                     <button
                       onClick={handleLogout}
-                      style={{ ...hStyles.dropdownItem, color: "#ef4444", background: "none", border: "none", width: "100%", textAlign: "left", cursor: "pointer" }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = "#fef2f2"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+                      className="block px-4 py-2.5 font-['Prompt','Inter',system-ui,sans-serif] font-semibold text-[0.82rem] text-[#ef4444] bg-transparent border-none w-full text-left cursor-pointer transition-colors duration-150 hover:bg-[#fef2f2]"
                     >
                       Log Out
                     </button>
@@ -154,20 +125,11 @@ export default function Header() {
               </div>
             )}
 
-            {/* Login button — orange, rounded */}
             {!isLoggedIn && (
               <button
                 id="login-btn"
                 onClick={() => setShowLoginModal(true)}
-                style={hStyles.loginBtn}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#d96810";
-                  e.currentTarget.style.transform = "translateY(-1px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#F47624";
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
+                className="px-4 py-[6px] bg-[var(--color-moz-orange)] border-none rounded-[5px] font-['Prompt','Inter',system-ui,sans-serif] font-bold text-[0.875rem] text-white cursor-pointer tracking-[0.01em] shadow-[0_4px_14px_rgba(244,118,36,0.3)] transition-[background,transform] duration-[0.18s] whitespace-nowrap hover:bg-[#d96810] hover:-translate-y-[1px]"
               >
                 Login
               </button>
@@ -176,7 +138,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Login Modal */}
       {showLoginModal && (
         <LoginModal
           onSuccess={handleLoginSuccess}
@@ -186,100 +147,6 @@ export default function Header() {
     </>
   );
 }
-
-/* ─── Header inline styles ──────────────────────────────────────────────── */
-
-const ORANGE = "#F47624";
-const PROMPT = "'Prompt', 'Inter', system-ui, sans-serif";
-
-const hStyles: Record<string, React.CSSProperties> = {
-  /* Pill external link — exact Figma spec: 291×54, border-radius 50.82px */
-  pill: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "9.08px",
-    width: "291px",
-    height: "54px",
-    paddingTop: "20px",
-    paddingBottom: "23px",
-    boxSizing: "border-box" as const,
-    background: "#ffffff",
-    border: "1px solid #948D83",
-    borderRadius: "50.82px",
-    fontFamily: PROMPT,
-    fontWeight: 600,
-    fontSize: "0.9rem",
-    color: "#4a3520",
-    textDecoration: "none",
-    transition: "border-color 0.18s, color 0.18s",
-    whiteSpace: "nowrap",
-    flexShrink: 0,
-  },
-
-  /* Admin button */
-  adminBtn: {
-    display: "flex",
-    alignItems: "center",
-    gap: "6px",
-    padding: "0 16px",
-    height: "44px",
-    background: "#fff4ee",
-    border: `1px solid ${ORANGE}`,
-    borderRadius: "8px",
-    fontFamily: "'Segoe UI', sans-serif",
-    fontWeight: 350,
-    fontSize: "18px",
-    lineHeight: "100%",
-    letterSpacing: "0%",
-    color: ORANGE,
-    cursor: "pointer",
-    transition: "opacity 0.15s",
-  },
-
-  /* Admin dropdown panel */
-  dropdown: {
-    position: "absolute" as const,
-    right: 0,
-    top: "calc(100% + 8px)",
-    width: "220px",
-    background: "#ffffff",
-    border: "1px solid #e8e8e8",
-    borderRadius: "12px",
-    boxShadow: "0 8px 30px rgba(0,0,0,0.10)",
-    overflow: "hidden",
-    zIndex: 50,
-  },
-
-  /* Dropdown list items */
-  dropdownItem: {
-    display: "block",
-    padding: "10px 16px",
-    fontFamily: PROMPT,
-    fontWeight: 600,
-    fontSize: "0.82rem",
-    color: "#414141",
-    textDecoration: "none",
-    transition: "background 0.15s, color 0.15s",
-  },
-
-  /* Orange Login button */
-  loginBtn: {
-    padding: "6px 16px", /* matched to py-1.5 px-4 */
-    background: ORANGE,
-    border: "none",
-    borderRadius: "5px",
-    fontFamily: PROMPT,
-    fontWeight: 700,
-    fontSize: "0.875rem", /* text-sm to match sliitmozilla.org */
-    color: "#ffffff",
-    cursor: "pointer",
-    letterSpacing: "0.01em",
-    boxShadow: "0 4px 14px rgba(244,118,36,0.3)",
-    transition: "background 0.18s, transform 0.15s",
-    whiteSpace: "nowrap",
-  },
-};
 
 /* ─── Inline Login Modal ─────────────────────────────────────────────────── */
 
@@ -324,32 +191,26 @@ function LoginModal({
     }
   };
 
-  // Close on backdrop click
   const handleBackdrop = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) onClose();
   };
 
   return (
     <div
-      className="fixed inset-0 z-[999] flex items-center justify-center px-4"
-      style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(2px)" }}
+      className="fixed inset-0 z-[999] flex items-center justify-center px-4 bg-[rgba(0,0,0,0.45)] backdrop-blur-[2px]"
       onClick={handleBackdrop}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 relative animate-[fadeInUp_0.18s_ease]"
-        style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.18)" }}
+        className="bg-white rounded-2xl w-full max-w-sm p-8 relative animate-[fadeInUp_0.18s_ease] shadow-[0_24px_60px_rgba(0,0,0,0.18)]"
       >
-        {/* Close */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-moz-gray-mid hover:text-moz-black transition-colors cursor-pointer"
+          className="absolute top-4 right-4 text-moz-gray-mid hover:text-moz-black transition-colors cursor-pointer bg-transparent border-none"
           aria-label="Close"
-          style={{ background: "none", border: "none" }}
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Logo */}
         <div className="flex flex-col items-center mb-6">
           <img
             src="https://www.sliitmozilla.org/assets/Mozilla-logo.png"
@@ -408,12 +269,8 @@ function LoginModal({
           <button
             type="submit"
             disabled={loading || !email || !password}
-            className="flex items-center justify-center gap-2 py-2.5 rounded-xl font-bold text-white text-[0.9rem] transition-all disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
-            style={{
-              background: "linear-gradient(135deg, var(--color-moz-orange) 0%, var(--color-moz-orange-mid) 100%)",
-              border: "none",
-              boxShadow: loading ? "none" : "0 4px 14px rgba(255,113,57,0.35)",
-            }}
+            className={`flex items-center justify-center gap-2 py-2.5 rounded-xl font-bold text-white text-[0.9rem] transition-all cursor-pointer bg-gradient-to-br from-[var(--color-moz-orange)] to-[var(--color-moz-orange-mid)] border-none ${loading ? "opacity-60 cursor-not-allowed" : "shadow-[0_4px_14px_rgba(255,113,57,0.35)] disabled:opacity-60 disabled:cursor-not-allowed"
+              }`}
           >
             {loading && <Loader2 className="w-4 h-4 animate-spin" />}
             {loading ? "Signing in…" : "Sign In"}

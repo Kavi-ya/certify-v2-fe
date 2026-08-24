@@ -67,69 +67,65 @@ function PreviewPage() {
 
   return (
     <>
-      <section style={styles.section}>
+      <section className="relative min-h-[calc(100vh-72px)] bg-[rgba(233,145,4,0.19)] flex items-start justify-center pt-[clamp(2.5rem,5vw,4rem)] px-[1.5rem] pb-[4rem] overflow-hidden">
         {/* Background blurry word */}
-        <h1 style={styles.brandWordShadow} aria-hidden="true">CERTIFY</h1>
+        <h1 className="m-0 font-['Prompt',system-ui,sans-serif] font-semibold text-[clamp(120px,20vw,300px)] leading-none tracking-[0.14em] text-black text-center select-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap blur-[18px] opacity-25 z-0 pointer-events-none" aria-hidden="true">CERTIFY</h1>
 
-        {/* Top Left Back Button */}
-        <button
-          onClick={() => navigate(-1)}
-          style={styles.backBtn}
-          onMouseEnter={(e) => e.currentTarget.style.transform = "scale(0.92)"}
-          onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: "20px", height: "20px" }}>
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-        </button>
+        <div className="w-full max-w-[950px] flex flex-col items-center gap-0 z-10">
 
-        {/* Top Right Download Button */}
-        {certificateImg && !loading && !error && (
-          <button
-            id="download-certificate-button"
-            onClick={handleDownload}
-            style={styles.downloadBtn}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = "0.9"}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
-            onMouseDown={(e) => e.currentTarget.style.transform = "scale(0.96)"}
-            onMouseUp={(e) => e.currentTarget.style.transform = "scale(1)"}
-          >
-            Download PDF
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: "8px", width: "16px", height: "16px" }}>
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-          </button>
-        )}
+          {/* Action Bar (Back & Download) */}
+          <div className="w-full flex justify-between items-center mb-6 sm:mb-8 gap-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="flex justify-center items-center w-10 h-10 shrink-0 bg-[#F47624] rounded-full drop-shadow-[0_4px_6px_rgba(244,118,36,0.3)] border-none cursor-pointer transition-transform duration-200 hover:scale-[0.92]"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </button>
 
-        <div style={styles.inner}>
+            {certificateImg && !loading && !error && (
+              <button
+                id="download-certificate-button"
+                onClick={handleDownload}
+                className="flex items-center py-[0.7rem] px-[1.2rem] rounded-full border-none bg-[#F47624] text-white text-[0.95rem] font-['Montserrat',system-ui,sans-serif] font-semibold cursor-pointer shadow-[0px_2px_4px_rgba(136,144,194,0.2),0px_5px_15px_rgba(37,44,97,0.15)] transition-[transform,opacity] duration-[0.15s] ease-in-out hover:opacity-90 active:scale-[0.96]"
+              >
+                <span className="hidden sm:inline">Download PDF</span>
+                <span className="inline sm:hidden">Download</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 w-4 h-4">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+              </button>
+            )}
+          </div>
 
           {/* Header block */}
-          <div style={styles.headerBlock}>
-            <h1 style={styles.title}>CERTIFICATE PREVIEW</h1>
-            <p style={styles.subtitle}>Certificate ID : {certificateId.toUpperCase()}</p>
+          <div className="w-full flex flex-col items-start mb-8">
+            <h1 className="font-['Prompt',system-ui,sans-serif] font-bold text-[clamp(1.2rem,3vw,1.8rem)] text-black tracking-[0.02em] m-0 mb-2 uppercase">CERTIFICATE PREVIEW</h1>
+            <p className="font-['Prompt',system-ui,sans-serif] font-semibold text-[0.95rem] text-black m-0">Certificate ID : {certificateId.toUpperCase()}</p>
           </div>
 
           {/* Loading */}
           {loading && (
-            <div style={styles.statusBox}>
-              <span style={styles.spinner}>⟳</span>&nbsp; Loading certificate…
+            <div className="p-4 text-black font-['Prompt',system-ui,sans-serif] text-[1.1rem] font-medium">
+              <span className="inline-block animate-[spin-slow_1s_linear_infinite]">⟳</span>&nbsp; Loading certificate…
             </div>
           )}
 
           {/* Error */}
           {error && !loading && (
-            <div style={styles.errorBox}>⚠ {error}</div>
+            <div className="py-4 px-6 bg-[#fff0ed] text-[#cc2b04] rounded-lg font-['Prompt',system-ui,sans-serif] border border-[#ffd2c7] font-medium">⚠ {error}</div>
           )}
 
           {/* Certificate card */}
           {certificateImg && !loading && !error && (
             <>
-              <div style={styles.card}>
+              <div className="w-full bg-white rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.07),0_8px_40px_rgba(89,42,203,0.06)] mb-8">
                 {/* PDF */}
-                <div style={styles.pdfWrap}>
+                <div className="p-6 h-[58vh] min-h-[400px] flex items-center justify-center">
                   <PDFViewer url={certificateImg} />
                 </div>
               </div>
@@ -162,159 +158,5 @@ function PreviewPage() {
     </>
   );
 }
-
-/* ─── Scoped styles ─────────────────────────────────────────────────────── */
-
-const styles: Record<string, React.CSSProperties> = {
-  section: {
-    position: "relative",
-    minHeight: "calc(100vh - 72px)",
-    background: "rgba(233, 145, 4, 0.19)",
-    display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "center",
-    padding: "clamp(3rem, 6vw, 5rem) 1.5rem 4rem",
-    overflow: "hidden",
-  },
-
-  brandWordShadow: {
-    margin: 0,
-    fontFamily: "'Prompt', system-ui, sans-serif",
-    fontWeight: 600,
-    fontSize: "clamp(120px, 20vw, 300px)",
-    lineHeight: 1,
-    letterSpacing: "0.14em",
-    color: "#000000",
-    textAlign: "center",
-    userSelect: "none",
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    whiteSpace: "nowrap",
-    filter: "blur(18px)",
-    opacity: 0.25,
-    zIndex: 0,
-    pointerEvents: "none",
-  },
-
-  backBtn: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    width: "40px",
-    height: "40px",
-    left: "clamp(1.5rem, 4vw, 3rem)",
-    top: "clamp(1.5rem, 4vw, 3rem)",
-    background: "#F47624",
-    borderRadius: "50%",
-    filter: "drop-shadow(0px 4px 6px rgba(244,118,36,0.3))",
-    border: "none",
-    cursor: "pointer",
-    transition: "transform 0.2s ease",
-    zIndex: 10,
-  },
-
-  inner: {
-    width: "100%",
-    maxWidth: "950px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: 0,
-  },
-
-  headerBlock: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    marginBottom: "2rem",
-  },
-
-  title: {
-    fontFamily: "'Prompt', system-ui, sans-serif",
-    fontWeight: 700,
-    fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
-    color: "#000000",
-    letterSpacing: "0.02em",
-    margin: "0 0 0.5rem",
-    textTransform: "uppercase",
-  },
-
-  subtitle: {
-    fontFamily: "'Prompt', system-ui, sans-serif",
-    fontWeight: 600,
-    fontSize: "0.95rem",
-    color: "#000000",
-    margin: 0,
-  },
-
-  /* Certificate card */
-  card: {
-    width: "100%",
-    background: "#ffffff",
-    borderRadius: "16px", /* Matching the 16px radius of the input on home */
-    overflow: "hidden",
-    boxShadow: "0 2px 12px rgba(0,0,0,0.07), 0 8px 40px rgba(89,42,203,0.06)",
-    marginBottom: "2rem",
-  },
-
-  pdfWrap: {
-    padding: "1.5rem",
-    height: "58vh",
-    minHeight: "400px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  /* Download button - Matches Verify pill button from Homepage */
-  downloadBtn: {
-    position: "absolute",
-    top: "clamp(1.5rem, 4vw, 3rem)",
-    right: "clamp(1.5rem, 4vw, 3rem)",
-    display: "flex",
-    alignItems: "center",
-    padding: "0.7rem 1.2rem",
-    borderRadius: "999px",
-    border: "none",
-    background: "#F47624",
-    color: "#ffffff",
-    fontSize: "0.95rem",
-    fontFamily: "'Montserrat', system-ui, sans-serif",
-    fontWeight: 600,
-    cursor: "pointer",
-    boxShadow: "0px 2px 4px rgba(136,144,194,0.2), 0px 5px 15px rgba(37,44,97,0.15)",
-    transition: "transform 0.15s ease, opacity 0.15s ease",
-    zIndex: 10,
-  },
-
-  /* Status displays */
-  statusBox: {
-    padding: "1rem",
-    color: "#000000",
-    fontFamily: "'Prompt', system-ui, sans-serif",
-    fontSize: "1.1rem",
-    fontWeight: 500,
-  },
-
-  errorBox: {
-    padding: "1rem 1.5rem",
-    background: "#fff0ed",
-    color: "#cc2b04",
-    borderRadius: "8px",
-    fontFamily: "'Prompt', system-ui, sans-serif",
-    border: "1px solid #ffd2c7",
-    fontWeight: 500,
-  },
-
-  spinner: {
-    display: "inline-block",
-    animation: "spin-slow 1s linear infinite",
-  },
-
-};
 
 export default PreviewPage;

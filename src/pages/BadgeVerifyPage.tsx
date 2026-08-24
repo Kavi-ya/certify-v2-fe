@@ -95,8 +95,7 @@ export default function BadgeVerifyPage() {
             <div className="max-w-3xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
                     <h1
-                        className="m-0 font-bold text-moz-black tracking-[-0.02em]"
-                        style={{ fontSize: "clamp(1.1rem, 3vw, 1.5rem)" }}
+                        className="m-0 font-bold text-moz-black tracking-[-0.02em] text-[clamp(1.1rem,3vw,1.5rem)]"
                     >
                         Verify Badge
                     </h1>
@@ -122,11 +121,7 @@ export default function BadgeVerifyPage() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="submit-btn px-6 py-2 rounded-lg text-white font-bold cursor-pointer transition-all disabled:opacity-70"
-                        style={{
-                            background: "linear-gradient(135deg, var(--color-moz-orange) 0%, var(--color-moz-orange-mid) 100%)",
-                            border: "none",
-                        }}
+                        className="submit-btn px-6 py-2 rounded-lg text-white font-bold cursor-pointer transition-all disabled:opacity-70 bg-gradient-to-br from-[var(--color-moz-orange)] to-[var(--color-moz-orange-mid)] border-none"
                     >
                         {loading ? "Verifying..." : "Verify"}
                     </button>

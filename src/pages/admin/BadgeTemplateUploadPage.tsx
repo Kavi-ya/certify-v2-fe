@@ -79,8 +79,7 @@ function BadgeTemplateUploadPage() {
       <div className="max-w-3xl mx-auto w-full flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1
-            className="m-0 font-bold text-moz-black tracking-[-0.02em]"
-            style={{ fontSize: "clamp(1.1rem, 3vw, 1.5rem)" }}
+            className="m-0 font-bold text-moz-black tracking-[-0.02em] text-[clamp(1.1rem,3vw,1.5rem)]"
           >
             New Badge Template
           </h1>
@@ -223,17 +222,9 @@ function BadgeTemplateUploadPage() {
           type="submit"
           disabled={submitting}
           className={`submit-btn rounded-lg border-none text-[0.9rem] font-bold cursor-pointer font-sans tracking-[0.02em] flex items-center justify-center gap-2 py-[0.7rem] transition-[transform,opacity] duration-150 ${submitting
-              ? "bg-moz-gray-light text-moz-gray cursor-not-allowed"
-              : "text-white"
+            ? "bg-moz-gray-light text-moz-gray cursor-not-allowed"
+            : "text-white bg-gradient-to-br from-[var(--color-moz-orange)] to-[var(--color-moz-orange-mid)]"
             }`}
-          style={
-            !submitting
-              ? {
-                background:
-                  "linear-gradient(135deg, var(--color-moz-orange) 0%, var(--color-moz-orange-mid) 100%)",
-              }
-              : undefined
-          }
         >
           {submitting ? (
             <>
